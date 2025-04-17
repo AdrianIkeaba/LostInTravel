@@ -8,6 +8,7 @@ A lightweight, modern Android app for exploring curated travel destinations. Bui
 - Optimized for performance and simplicity
 - Built with modern Android libraries
 - Clean and reusable composables
+- Pull to refresh
 
 ## 🛠️ Set up 🛠️  
 To run this application you would need;
