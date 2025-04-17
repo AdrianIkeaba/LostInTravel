@@ -67,3 +67,5 @@ To run this application you would need;
 -  Make layout responsive for tablets.
 
 -  Add loading skeletons and enhanced animations.
+
+- Retrived images from the API do not currently work.
