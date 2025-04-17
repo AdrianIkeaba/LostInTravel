@@ -20,17 +20,21 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -65,7 +69,7 @@ fun HomeComponent(
 
     LaunchedEffect(Unit) {
         viewmodel.retrieveUserFullName(context)
-        viewmodel.getRecommendedPlaces(context)
+        viewmodel.getRecommendedPlaces(context, false)
     }
 
     LaunchedEffect(state.value.isLoggedOut) {
@@ -80,23 +84,31 @@ fun HomeComponent(
         error = state.value.error,
         onLogoutClick = {
             viewmodel.logout(context)
-        }
+        },
+        onRefresh = {
+            viewmodel.getRecommendedPlaces(context, true)
+            println("Refreshing")
+        },
+        isRefreshing = state.value.isRefreshing
     )
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("DefaultLocale")
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     loading: Boolean = false,
+    isRefreshing: Boolean = false,
+    onRefresh: () -> Unit = {},
     error: String? = null,
     fullName: String = "",
     places: List<RecommendedPlacesQuery.RecommendedPlace> = emptyList(),
-    onLogoutClick: () -> Unit = {}
+    onLogoutClick: () -> Unit = {},
 ) {
     SetStatusBarColor(color = Color.White, darkIcons = true)
-
+    val scrollState = rememberScrollState()
     val lazyListState = rememberLazyListState()
 
     Box(
@@ -105,57 +117,65 @@ fun HomeScreen(
             .padding(top = 16.dp)
             .background(Color.White)
     ) {
-        Column(
-            modifier = modifier
-                .padding(horizontal = 24.dp)
-                .fillMaxSize()
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = onRefresh,
+            modifier = Modifier.fillMaxSize()
         ) {
-            Header(
-                name = fullName,
-                onLogoutClick = onLogoutClick
-            )
-
-            Spacer(
-                modifier = Modifier
-                    .height(48.dp)
-            )
-
-            Text(
-                text = "Frequently Visited",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.Black
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            if (loading == false && !error.isNullOrEmpty()) {
-                Text(
-                    text = error,
-                    color = Color.Red,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .align(Alignment.CenterHorizontally)
-                )
-            }
-
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxWidth(),
-                flingBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState, snapPosition = SnapPosition.Center)
+            Column(
+                modifier = modifier
+                    .padding(horizontal = 24.dp)
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
             ) {
-                items(places.size) { index ->
-                    val price = String.format("%.0f", places[index].price)
-                    PlacesItem(
-                        title = places[index].leadingDestinationTitle ?: "",
-                        location = places[index].subDestinationTitle ?: "",
-                        price = "$${price}",
-                        desImageUrl = places[index].imageUrl ?: ""
+                Header(
+                    name = fullName,
+                    onLogoutClick = onLogoutClick
+                )
+
+                Spacer(
+                    modifier = Modifier
+                        .height(48.dp)
+                )
+
+                Text(
+                    text = "Frequently Visited",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Black
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                if (!loading && !error.isNullOrEmpty()) {
+                    Text(
+                        text = error,
+                        color = Color.Red,
+                        modifier = Modifier.fillMaxWidth()
                     )
+                }
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    flingBehavior = rememberSnapFlingBehavior(
+                        lazyListState = lazyListState,
+                        snapPosition = SnapPosition.Center
+                    )
+                ) {
+                    items(places.size) { index ->
+                        val price = String.format("%.0f", places[index].price)
+                        PlacesItem(
+                            title = places[index].leadingDestinationTitle ?: "",
+                            location = places[index].subDestinationTitle ?: "",
+                            price = "$${price}",
+                            desImageUrl = places[index].imageUrl ?: ""
+                        )
+                    }
                 }
             }
         }
-        if (loading) {
+
+        if (loading && !isRefreshing) {
             LoadingComponent(
                 modifier = Modifier.fillMaxSize()
             )

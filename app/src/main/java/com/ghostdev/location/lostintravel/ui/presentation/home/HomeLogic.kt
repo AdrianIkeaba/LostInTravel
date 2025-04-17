@@ -37,39 +37,56 @@ class HomeLogic : ViewModel() {
         }
     }
 
-    fun getRecommendedPlaces(context: Context) {
+    fun getRecommendedPlaces(context: Context, isRefreshing: Boolean) {
         viewModelScope.launch {
+            _uiState.update { it.copy(isRefreshing = isRefreshing, isLoading = !isRefreshing) }
+
             try {
-                val localPlaces = context.dataStore.getPlacesFlow().first()
-                if (localPlaces.isNotEmpty()) {
-                    _uiState.update {
-                        it.copy(isLoading = false, places = localPlaces)
-                    }
-                } else {
+                if (isRefreshing) {
                     val result = recommendedPlacesUseCase()
                     when (result) {
                         is Result.Success -> {
-                            val places = context.dataStore.getPlacesFlow().first()
+                            val updatedPlaces = context.dataStore.getPlacesFlow().first()
                             _uiState.update {
-                                it.copy(isLoading = false, places = places)
+                                it.copy(places = updatedPlaces, isRefreshing = false, isLoading = false)
                             }
                         }
-
                         is Result.Error -> {
                             _uiState.update {
-                                it.copy(isLoading = false, error = result.message)
+                                it.copy(error = result.message, isRefreshing = false, isLoading = false)
+                            }
+                        }
+                    }
+                } else {
+                    val localPlaces = context.dataStore.getPlacesFlow().first()
+                    if (localPlaces.isNotEmpty()) {
+                        _uiState.update {
+                            it.copy(places = localPlaces, isLoading = false)
+                        }
+                    } else {
+                        val result = recommendedPlacesUseCase()
+                        when (result) {
+                            is Result.Success -> {
+                                val newPlaces = context.dataStore.getPlacesFlow().first()
+                                _uiState.update {
+                                    it.copy(places = newPlaces, isLoading = false)
+                                }
+                            }
+                            is Result.Error -> {
+                                _uiState.update {
+                                    it.copy(error = result.message, isLoading = false)
+                                }
                             }
                         }
                     }
                 }
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(isLoading = false, error = "An error occurred: ${e.localizedMessage}")
+                    it.copy(error = "An error occurred: ${e.localizedMessage}", isRefreshing = false, isLoading = false)
                 }
             }
         }
     }
-
 
 
     fun logout(context: Context) {
@@ -98,6 +115,7 @@ class HomeLogic : ViewModel() {
 
 data class HomeUiState(
     val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
     val isLoggedOut: Boolean = false,
     val fullName: String = "",
     val places: List<RecommendedPlacesQuery.RecommendedPlace> = emptyList(),
