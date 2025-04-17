@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -76,6 +77,7 @@ fun HomeComponent(
         fullName = state.value.fullName,
         places = state.value.places,
         loading = state.value.isLoading,
+        error = state.value.error,
         onLogoutClick = {
             viewmodel.logout(context)
         }
@@ -88,6 +90,7 @@ fun HomeComponent(
 fun HomeScreen(
     modifier: Modifier = Modifier,
     loading: Boolean = false,
+    error: String? = null,
     fullName: String = "",
     places: List<RecommendedPlacesQuery.RecommendedPlace> = emptyList(),
     onLogoutClick: () -> Unit = {}
@@ -125,6 +128,16 @@ fun HomeScreen(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
+
+            if (loading == false && !error.isNullOrEmpty()) {
+                Text(
+                    text = error,
+                    color = Color.Red,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .align(Alignment.CenterHorizontally)
+                )
+            }
 
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),

@@ -40,30 +40,32 @@ class HomeLogic : ViewModel() {
     fun getRecommendedPlaces(context: Context) {
         viewModelScope.launch {
             try {
-                val result = recommendedPlacesUseCase()
-                when(result) {
-                    is Result.Success -> {
-                        val places = context.dataStore.getPlacesFlow().first()
-                        _uiState.update {
-                            it.copy(isLoading = false, places = places)
-                        }
+                val localPlaces = context.dataStore.getPlacesFlow().first()
+                if (localPlaces.isNotEmpty()) {
+                    _uiState.update {
+                        it.copy(isLoading = false, places = localPlaces)
                     }
-
-                    is Result.Error -> {
-                        _uiState.update {
-                            it.copy(isLoading = false, error = result.message)
+                } else {
+                    val result = recommendedPlacesUseCase()
+                    when (result) {
+                        is Result.Success -> {
+                            val places = context.dataStore.getPlacesFlow().first()
+                            _uiState.update {
+                                it.copy(isLoading = false, places = places)
+                            }
                         }
-                        delay(5000)
-                        clearError()
+
+                        is Result.Error -> {
+                            _uiState.update {
+                                it.copy(isLoading = false, error = result.message)
+                            }
+                        }
                     }
                 }
-
             } catch (e: Exception) {
                 _uiState.update {
                     it.copy(isLoading = false, error = "An error occurred: ${e.localizedMessage}")
                 }
-                delay(5000)
-                clearError()
             }
         }
     }
@@ -88,14 +90,9 @@ class HomeLogic : ViewModel() {
                     _uiState.update {
                         it.copy(error = result.message, isLoading = false)
                     }
-                    delay(5000)
                 }
             }
         }
-    }
-
-    private fun clearError() {
-        _uiState.update { it.copy(error = null) }
     }
 }
 
