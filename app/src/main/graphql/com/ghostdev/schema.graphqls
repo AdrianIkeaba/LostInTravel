@@ -1,0 +1,1108 @@
+type AccessTokenResponse {
+  access_token: String
+}
+
+type AdditionalService {
+  amount: String
+
+  type: String
+}
+
+input AdditionalServiceInput {
+  amount: String
+
+  type: String
+}
+
+type Aircraft {
+  code: String
+}
+
+input AircraftInput {
+  code: String
+}
+
+type Arrival {
+  iataCode: String
+
+  terminal: String
+
+  at: String
+}
+
+input ArrivalInput {
+  iataCode: String
+
+  terminal: String
+
+  at: String
+}
+
+type AssociatedRecord {
+  reference: String
+
+  creationDate: String
+
+  originSystemCode: String
+
+  flightOfferId: String
+}
+
+type Budget {
+  _id: ID!
+
+  title: String!
+
+  amount: Float!
+
+  start_date: String!
+
+  end_date: String!
+
+  created_at: Timestamp!
+
+  updated_at: Timestamp!
+}
+
+type Channel {
+  _id: ID!
+
+  SenderID: String
+
+  RecipientID: String
+}
+
+type ChatMessage {
+  _id: ID!
+
+  Sender: String
+
+  Recipient: String
+
+  Content: String
+
+  ChannelID: String
+
+  CreatedAt: Timestamp
+}
+
+input CitySearch {
+  keyword: String!
+
+  CountryCode: String!
+}
+
+type CitySearchAddress {
+  cityName: String
+
+  cityCode: String
+
+  countryName: String
+
+  countryCode: String
+
+  regionCode: String
+}
+
+type CitySearchDetail {
+  type: String
+
+  subType: String
+
+  name: String
+
+  detailedName: String
+
+  id: String
+
+  timeZoneOffset: String
+
+  iataCode: String
+
+  geoCode: GeoCode
+
+  address: CitySearchAddress
+}
+
+type CitySearchResponse {
+  data: [CitySearchDetail]
+}
+
+type CoEmission {
+  weight: Float
+
+  weightUnit: String
+
+  cabin: String
+}
+
+input CoEmissionInput {
+  weight: Float
+
+  weightUnit: String
+
+  cabin: String
+}
+
+type Commission {
+  percentage: String
+}
+
+type Country {
+  name: String!
+
+  country_code: String!
+
+  flag: String!
+}
+
+input CreateBudget {
+  title: String!
+
+  amount: Float!
+
+  start_date: String!
+
+  end_date: String!
+}
+
+input CreateUser {
+  email: String!
+
+  picture: String
+
+  full_name: String!
+
+  location: LocationInput!
+
+  password: String!
+}
+
+input CurrencyExchange {
+  base_currency: String!
+
+  exchange_currency: String!
+
+  amount: Float!
+}
+
+type CurrencyList {
+  code: String!
+
+  flag: String!
+}
+
+type Depature {
+  iataCode: String
+
+  terminal: String
+
+  at: String
+}
+
+input DepatureInput {
+  iataCode: String
+
+  terminal: String
+
+  at: String
+}
+
+type ExchangeResponse {
+  exchange_rate: Float!
+
+  amount: Float!
+}
+
+input FacebookAuth {
+  access_token: String!
+}
+
+type FacebookAuthModel {
+  id: String
+
+  name: String
+
+  email: String
+}
+
+type FareDetailBySegment {
+  segmentId: String
+
+  cabin: String
+
+  fareBasis: String
+
+  brandedFare: String
+
+  class: String
+
+  includedCheckedBags: IncludedCheckedBag
+}
+
+input FareDetailBySegmentInput {
+  segmentId: String
+
+  cabin: String
+
+  fareBasis: String
+
+  brandedFare: String
+
+  class: String
+
+  includedCheckedBags: IncludedCheckedBagInput
+}
+
+type Fee {
+  amount: String
+
+  type: String
+}
+
+input FeeInput {
+  amount: String
+
+  type: String
+}
+
+input FlightCreateOrder {
+  type: String
+
+  flightOffers: [flightOfferPriceInput]!
+
+  travelers: [Traveler]!
+}
+
+type FlightOffer {
+  type: String
+
+  id: String
+
+  source: String
+
+  instantTicketingRequired: Boolean
+
+  nonHomogeneous: Boolean
+
+  oneWay: Boolean
+
+  lastTicketingDate: String
+
+  lastTicketingDateTime: String
+
+  numberOfBookableSeats: Float
+
+  itineraries: [FlightOfferItinerary]
+
+  price: Price
+
+  pricingOptions: PricingOption
+
+  validatingAirlineCodes: [String]
+
+  travelerPricings: [TravelPricing]
+}
+
+type FlightOfferData {
+  data: [FlightOffer]
+}
+
+input FlightOfferDataInput {
+  type: String
+
+  id: String
+
+  source: String
+
+  instantTicketingRequired: Boolean
+
+  nonHomogeneous: Boolean
+
+  oneWay: Boolean
+
+  lastTicketingDate: String
+
+  lastTicketingDateTime: String
+
+  numberOfBookableSeats: Float
+
+  itineraries: [FlightOfferItineraryInput]
+
+  price: PriceInput
+
+  pricingOptions: PricingOptionInput
+
+  validatingAirlineCodes: [String]
+
+  travelerPricings: [TravelPricingInput]
+}
+
+type FlightOfferItinerary {
+  duration: String
+
+  segments: [FlightOfferItinerarySegment]
+}
+
+input FlightOfferItineraryInput {
+  duration: String
+
+  segments: [FlightOfferItinerarySegmentInput]
+}
+
+type FlightOfferItinerarySegment {
+  departure: Depature
+
+  arrival: Arrival
+
+  carrierCode: String
+
+  number: String
+
+  aircraft: Aircraft
+
+  operating: Operating
+
+  duration: String
+
+  id: String
+
+  numberOfStops: Float
+
+  co2Emissions: [CoEmission]
+
+  blacklistedInEU: Boolean
+}
+
+input FlightOfferItinerarySegmentInput {
+  departure: DepatureInput
+
+  arrival: ArrivalInput
+
+  carrierCode: String
+
+  number: String
+
+  aircraft: AircraftInput
+
+  operating: OperatingInput
+
+  duration: String
+
+  id: String
+
+  numberOfStops: Float
+
+  co2Emissions: [CoEmissionInput]
+
+  blacklistedInEU: Boolean
+}
+
+input FlightOfferPricing {
+  type: String
+
+  flightOffers: [FlightOfferDataInput]
+}
+
+type FlightOfferPricingPayload {
+  type: String
+
+  flightOffers: [FlightOffer]
+}
+
+input FlightOfferPricingRequest {
+  data: flightOfferPriceInput
+}
+
+type FlightOfferPricingResponse {
+  data: FlightOfferPricingPayload
+}
+
+type FlightOrderDetail {
+  type: String
+
+  id: String
+
+  queuingOfficeId: String
+
+  associatedRecords: [AssociatedRecord]
+
+  flightOffers: [FlightOffer]
+}
+
+input FlightOrderRequest {
+  data: FlightCreateOrder
+}
+
+type FlightOrderResponse {
+  data: FlightOrderDetail
+}
+
+input FlightSearch {
+  originLocationCode: String!
+
+  destinationLocationCode: String!
+
+  departureDate: String!
+
+  returnDate: String
+
+  adults: String!
+
+  max: String
+}
+
+input ForgotPassword {
+  email: String!
+}
+
+type FullBudgetDetail {
+  totalSavedMoney: Float!
+
+  budgets: [Budget]
+}
+
+type GenericResponse {
+  message: String!
+}
+
+type GeoCode {
+  latitude: Float
+
+  longitude: Float
+}
+
+input GoogleAuth {
+  access_token: String!
+}
+
+type GoogleAuthModel {
+  sub: String
+
+  name: String
+
+  given_name: String
+
+  family_name: String
+
+  email: String
+
+  picture: String
+
+  email_verified: Boolean
+
+  locale: String
+}
+
+type Guests {
+  adults: Int
+}
+
+type HomeMedia {
+  homeImageUrl: String
+
+  homeVideoUrl: String
+}
+
+input HoteGuestName {
+  title: String
+
+  firstName: String
+
+  lastName: String
+}
+
+type HotelAddress {
+  countryCode: String
+}
+
+type HotelAvailabilityDetail {
+  type: String
+
+  hotel: HotelDetail
+
+  available: Boolean
+
+  offers: [HotelOfferDetail]
+}
+
+type HotelAvailabilityResponse {
+  data: [HotelAvailabilityDetail]
+}
+
+type HotelBookingDetail {
+  id: String
+
+  providerConfirmationId: String
+}
+
+type HotelBookingResponse {
+  data: [HotelBookingDetail]
+}
+
+type HotelCancellation {
+  description: HotelCancellationDescription
+
+  type: String
+}
+
+type HotelCancellationDescription {
+  text: String
+}
+
+type HotelDescription {
+  text: String
+
+  lang: String
+}
+
+type HotelDetail {
+  chainCode: String
+
+  iataCode: String
+
+  dupeId: Float
+
+  name: String
+
+  hotelId: String
+
+  geoCode: GeoCode
+
+  address: HotelAddress
+
+  latitude: Float
+
+  longitude: Float
+}
+
+input HotelGuestBookingInput {
+  offerId: String
+
+  guests: [HotelGuestInfo]
+
+  payments: [HotelGuestPaymentInput]
+
+  rooms: [HotelRoomInfo]
+}
+
+input HotelGuestBookingRequest {
+  data: HotelGuestBookingInput
+}
+
+input HotelGuestCardInput {
+  vendorCode: String
+
+  cardNumber: String
+
+  expiryDate: String
+}
+
+input HotelGuestContact {
+  phone: String
+
+  email: String
+}
+
+input HotelGuestInfo {
+  id: Float
+
+  name: HoteGuestName
+
+  contact: HotelGuestContact
+}
+
+input HotelGuestPaymentInput {
+  id: Float
+
+  method: String
+
+  card: HotelGuestCardInput
+}
+
+type HotelOfferDetail {
+  id: String
+
+  checkInDate: String
+
+  checkOutDate: String
+
+  rateCode: String
+
+  rateFamilyEstimated: RateFamilyEstimated
+
+  commission: Commission
+
+  boardType: String
+
+  room: HotelRoom
+
+  guests: Guests
+
+  price: HotelPrice
+
+  policies: HotelPolicies
+}
+
+type HotelPolicies {
+  paymentType: String
+
+  cancellation: HotelCancellation
+}
+
+type HotelPrice {
+  currency: String
+
+  base: String
+
+  total: String
+
+  taxes: [HotelPriceTaxes]
+
+  variations: HotelPriceVariation
+}
+
+type HotelPriceTaxes {
+  code: String
+
+  amount: String
+
+  currency: String
+
+  included: Boolean
+}
+
+type HotelPriceVariation {
+  average: HotelPriceVariationAverage
+
+  changes: [HotelPriceVariationChanges]
+}
+
+type HotelPriceVariationAverage {
+  base: String
+}
+
+type HotelPriceVariationChanges {
+  startDate: String
+
+  endDate: String
+
+  total: String
+}
+
+input HotelQueryDetailInput {
+  hotelIds: String
+
+  adults: String
+
+  checkInDate: String
+
+  checkOutDate: String
+}
+
+input HotelQueryInput {
+  cityCode: String
+
+  radius: Int
+
+  radiusUnit: String
+
+  ratings: String
+}
+
+type HotelResponse {
+  data: [HotelDetail]
+}
+
+type HotelRoom {
+  type: String
+
+  typeEstimated: TypeEstimated
+
+  description: HotelDescription
+}
+
+input HotelRoomInfo {
+  guestIds: [Float]
+
+  paymentId: Float
+
+  specialRequest: String
+}
+
+type IncludedCheckedBag {
+  quantity: Float
+}
+
+input IncludedCheckedBagInput {
+  quantity: Float
+}
+
+input LanguageTranslate {
+  language_from: String!
+
+  language_to: String!
+
+  text: String!
+}
+
+type Location {
+  latitude: String
+
+  longitude: String
+}
+
+input LocationInput {
+  latitude: String!
+
+  longitude: String!
+}
+
+input LocationUpdateInput {
+  latitude: String
+
+  longitude: String
+}
+
+input Login {
+  email: String!
+
+  password: String!
+}
+
+type LoginResponse {
+  token: String!
+}
+
+input Logout {
+  token: String!
+}
+
+type Mutation {
+  CreateNewUser("" input: CreateUser!): User!
+
+  Login("" input: Login!): LoginResponse
+
+  ForgotPassword("" input: ForgotPassword!): GenericResponse
+
+  ResetPassword("" input: ResetPassword!): GenericResponse
+
+  VerifyEmail("" input: VerifyOtp!): GenericResponse
+
+  VerifyResetOtp("" input: VerifyOtp!): GenericResponse
+
+  CurrencyExchange("" input: CurrencyExchange!): ExchangeResponse
+
+  CreateNewBudget("" input: CreateBudget!): Budget
+
+  GoogleLogin("" input: GoogleAuth!): LoginResponse
+
+  FacebookLogin("" input: FacebookAuth!): LoginResponse
+
+  LanguageTranslator("" input: LanguageTranslate!): TranslationResponse
+
+  ConfirmFlightOfferPricing("" input: flightOfferPriceInput!): FlightOfferPricingPayload
+
+  CreateFlightOrder("" input: FlightCreateOrder!): FlightOrderDetail
+
+  BookHotel("" input: HotelGuestBookingInput!): HotelBookingDetail
+
+  UpdateUser("" input: UpdateUserInput!): User
+
+  Logout("" input: Logout!): GenericResponse
+}
+
+type Operating {
+  carrierCode: String
+}
+
+input OperatingInput {
+  carrierCode: String
+}
+
+type Place {
+  _id: String
+
+  leadingDestinationTitle: String
+
+  subDestinationTitle: String
+
+  description: String
+
+  price: Float
+
+  iataCode: String
+
+  geoPoint: PlaceGeoPoint
+
+  imageUrl: String
+}
+
+type PlaceGeoPoint {
+  latitude: Float
+
+  longitude: Float
+}
+
+type Price {
+  currency: String
+
+  total: String
+
+  base: String
+
+  fees: [Fee]
+
+  grandTotal: String
+
+  additionalServices: [AdditionalService]
+}
+
+input PriceInput {
+  currency: String
+
+  total: String
+
+  base: String
+
+  fees: [FeeInput]
+
+  grandTotal: String
+
+  additionalServices: [AdditionalServiceInput]
+}
+
+type PricingOption {
+  fareType: [String]
+
+  includedCheckedBagsOnly: Boolean
+}
+
+input PricingOptionInput {
+  fareType: [String]
+
+  includedCheckedBagsOnly: Boolean
+}
+
+type Query {
+  GetUser: User!
+
+  GetCurrencyList: [CurrencyList]
+
+  GetCountryList: [Country]
+
+  GetFullBudgetDetail: FullBudgetDetail
+
+  SearchFlight("" input: FlightSearch!): [FlightOffer]
+
+  SearchCities("" input: CitySearch!): [CitySearchDetail]
+
+  ExplorePlaces("" input: QueryInput!): [Place]
+
+  RecommendedPlaces: [Place]
+
+  SearchHotels("" input: HotelQueryInput!): [HotelDetail]
+
+  CheckHotelAvailability("" input: HotelQueryDetailInput!): [HotelAvailabilityDetail]
+
+  SimilarPlacesRecommendations("" input: String!): [Place]
+
+  HomeMedia: HomeMedia
+}
+
+input QueryInput {
+  page: Int
+
+  limit: Int
+
+  query: String
+}
+
+type RateFamilyEstimated {
+  code: String
+
+  type: String
+}
+
+input ResetPassword {
+  email: String!
+
+  newPassword: String!
+}
+
+type Subscription {
+  BroadCastMessage: WebSocketMessage
+}
+
+scalar Timestamp
+
+type TranslationResponse {
+  translated_text: String
+}
+
+input TravelPhone {
+  deviceType: String
+
+  countryCallingCode: String
+
+  number: String
+}
+
+type TravelPricing {
+  travelerId: String
+
+  fareOption: String
+
+  travelerType: String
+
+  price: Price
+
+  fareDetailsBySegment: [FareDetailBySegment]
+}
+
+input TravelPricingInput {
+  travelerId: String
+
+  fareOption: String
+
+  travelerType: String
+
+  price: PriceInput
+
+  fareDetailsBySegment: [FareDetailBySegmentInput]
+}
+
+input Traveler {
+  id: String
+
+  dateOfBirth: String!
+
+  name: TravlerName!
+
+  gender: String!
+
+  contact: TravelerContact!
+}
+
+input TravelerContact {
+  emailAddress: String
+
+  phones: [TravelPhone]
+
+  documents: [TravelerDocument]
+}
+
+input TravelerDocument {
+  documentType: String
+
+  birthPlace: String
+
+  issuanceLocation: String
+
+  issuanceDate: String
+
+  number: String
+
+  expiryDate: String
+
+  issuanceCountry: String
+
+  validityCountry: String
+
+  nationality: String
+
+  holder: Boolean
+}
+
+input TravlerName {
+  firstName: String
+
+  lastName: String
+}
+
+type TypeEstimated {
+  category: String
+
+  beds: Int
+
+  bedType: String
+}
+
+input UpdateUserInput {
+  email: String
+
+  picture: String
+
+  full_name: String
+
+  location: LocationUpdateInput
+
+  country: String
+
+  travel_destination: String
+}
+
+type User {
+  _id: ID!
+
+  email: String
+
+  picture: String
+
+  full_name: String
+
+  location: Location
+
+  country: String
+
+  is_verified: Boolean
+
+  is_password_reset: Boolean
+
+  travel_destination: String
+
+  created_at: Timestamp!
+
+  updated_at: Timestamp!
+}
+
+input VerifyOtp {
+  otp: String!
+}
+
+type WebSocketMessage {
+  Sender: String
+
+  Recipient: String
+
+  Content: String
+
+  ChannelID: String
+}
+
+input flightOfferPriceInput {
+  flightOffers: [FlightOfferDataInput]
+
+  type: String
+}
+
+"""
+The @deprecated directive is used within the type system definition language to indicate deprecated portions of a GraphQL service’s schema, such as deprecated fields on a type or deprecated enum values.
+"""
+directive @deprecated ("" reason: String = "No longer supported") on FIELD_DEFINITION|ENUM_VALUE
+
+"""
+The @include directive may be provided for fields, fragment spreads, and inline fragments, and allows for conditional inclusion during execution as described by the if argument.
+"""
+directive @include ("" if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+The @skip directive may be provided for fields, fragment spreads, and inline fragments, and allows for conditional exclusion during execution as described by the if argument.
+"""
+directive @skip ("" if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}

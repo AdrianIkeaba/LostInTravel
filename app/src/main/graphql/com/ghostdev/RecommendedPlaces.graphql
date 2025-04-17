@@ -1,0 +1,8 @@
+query RecommendedPlaces {
+    RecommendedPlaces {
+        leadingDestinationTitle
+        subDestinationTitle
+        price
+        imageUrl
+    }
+}

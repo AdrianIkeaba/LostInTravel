@@ -1,0 +1,9 @@
+mutation LogOut($token: String!) {
+    Logout(
+        input: {
+            token: $token
+        }
+    ) {
+        message
+    }
+}

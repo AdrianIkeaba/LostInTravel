@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "697220941109",
+    "project_id": "lostintravel-86795",
+    "storage_bucket": "lostintravel-86795.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697220941109:android:4fa90742806e4e25b5387c",
+        "android_client_info": {
+          "package_name": "com.ghostdev.location.lostintravel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "697220941109-77sohvfoleiieomg3m3gd0o59v8q3sv8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ghostdev.location.lostintravel",
+            "certificate_hash": "f23c9fb6d633193d99ca7e87e50ea9583a629c13"
+          }
+        },
+        {
+          "client_id": "697220941109-ntq0ttrc29ddmqu8bodo0ancoddg3uh4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9FfIKRDo9AunmGT3S3Eb3NCMttYSrcG0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "697220941109-ntq0ttrc29ddmqu8bodo0ancoddg3uh4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

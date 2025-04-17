@@ -1,0 +1,12 @@
+mutation CreateNewUser($email: String!, $fullName: String!, $latitude: String!, $longitude: String!, $password: String!) {
+    CreateNewUser(
+        input: {
+            email: $email
+            full_name: $fullName
+            location: { latitude: $latitude, longitude: $longitude }
+            password: $password
+        }
+    ) {
+        _id
+    }
+}
